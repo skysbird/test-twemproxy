@@ -85,7 +85,6 @@ def test_nc_stats():
     def get_stat(name):
         time.sleep(1)
         stat = nc._info_dict()
-        #pprint(stat)
         if name in [ 'client_connections', 'client_eof', 'client_err', 'forward_error', 'fragments', 'server_ejects']:
             return stat[CLUSTER_NAME][name]
 
@@ -96,6 +95,7 @@ def test_nc_stats():
                 ret += v[name]
         return ret
 
+    time.sleep(1)
     assert(get_stat('requests') == 20)
     assert(get_stat('responses') == 20)
 

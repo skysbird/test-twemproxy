@@ -70,7 +70,7 @@ class Base:
 
         t2 = time.time()
         logging.info('%s start ok in %.2f seconds' %(self, t2-t1) )
-
+        
     def stop(self):
         if not self._alive():
             logging.warn('%s already stop' %(self) )
@@ -218,7 +218,7 @@ class NutCracker(Base):
         self.args['logfile']     = TT('$path/log/nutcracker.log', self.args)
         self.args['status_port'] = self.args['port'] + 1000
 
-        self.args['startcmd']    = TT('bin/nutcracker -d -c $conf -o $logfile -p $pidfile -s $status_port -v $verbose -m $mbuf -i 1', self.args)
+        self.args['startcmd']    = TT('bin/nutcracker -d -c $conf -o $logfile -p $pidfile -s $status_port -v $verbose -m $mbuf -i 1 -w 7 ', self.args)
         self.args['runcmd']      = TT('bin/nutcracker -d -c $conf -o $logfile -p $pidfile -s $status_port', self.args)
 
         self.args['cluster_name']= cluster_name
@@ -269,7 +269,7 @@ $cluster_name:
 
     def _info_dict(self):
         try:
-            ret = telnetlib.Telnet(self.args['host'], self.args['status_port']).read_all()
+            ret = telnetlib.Telnet(self.args['host'], self.args['status_port'],timeout=1).read_all()
             return json_decode(ret)
         except Exception, e:
             logging.debug('--- can not get _info_dict of nutcracker, [Exception: %s]' % (e, ))

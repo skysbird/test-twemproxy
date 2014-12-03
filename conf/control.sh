@@ -9,7 +9,7 @@ start()
 
     cd `dirname $$0`
     ${startcmd}
-    popd
+    popd .> /dev/null
 }
 
 stop() 
